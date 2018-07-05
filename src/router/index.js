@@ -1,0 +1,34 @@
+import Vue from 'vue';
+import Router from 'vue-router';
+import HelloWorld from '@/components/HelloWorld';
+import Axios from '@/components/Axios';
+import Test from '@/components/Test';
+import Trial from '@/components/Trial';
+
+Vue.use(Router);
+export default new Router({
+  mode: 'history',
+  routes: [
+    {
+      path: '/',
+      name: 'HelloWorld',
+      component: HelloWorld,
+    },
+    {
+      path: '/axios',
+      name: 'Axios',
+      component: Axios,
+    },
+    {
+      path: '/test',
+      name: 'Test',
+      component: Test,
+    },
+    {
+      path: '/trial',
+      name: 'Trial',
+      component: Trial,
+    },
+
+  ],
+});
