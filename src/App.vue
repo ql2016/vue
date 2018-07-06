@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <!-- <img src="./assets/logo.png"> -->
     <router-view :number="number" :title="title" @transferUser="getUser"/>
     <p>{{user}}</p>
   </div>

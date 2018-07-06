@@ -99,7 +99,7 @@ export default {
       numbers: ['axios', 'test', 'trial'],
     };
   },
-}
+};
 
 </script>
 

@@ -15,7 +15,8 @@ const app = express()
 
 
 
-const HOST = process.env.HOST
+const HOST = '10.144.16.99'
+
 const PORT = process.env.PORT && Number(process.env.PORT)
 
 const devWebpackConfig = merge(baseWebpackConfig, {
@@ -27,7 +28,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 
   // these devServer options should be customized in /config/index.js
   devServer: {
-    host: '10.144.16.99',
     clientLogLevel: 'warning',
     historyApiFallback: {
       rewrites: [
@@ -37,7 +37,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     hot: true,
     contentBase: false, // since we use CopyWebpackPlugin.
     compress: true,
-    host: HOST || config.dev.host,
+    host: HOST,
     port: PORT || config.dev.port,
     open: config.dev.autoOpenBrowser,
     overlay: config.dev.errorOverlay
@@ -48,7 +48,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
-    }    
+    }
   },
   plugins: [
     new webpack.DefinePlugin({
