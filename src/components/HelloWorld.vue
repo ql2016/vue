@@ -96,7 +96,7 @@ export default {
       url: 'http://www.baidu.com',
       isActive: true,
       errorClass: 'text-dange',
-      numbers: ['axios', 'test', 'trial'],
+      numbers: ['test', 'trial'],
     };
   },
 };

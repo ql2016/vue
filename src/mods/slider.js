@@ -1,21 +1,19 @@
 export default function Slider(opts) {
-
   var page = opts.page;
   this.wrap = opts.wrap;
-
   this.list = this.wrap.getElementsByTagName('ul')[0];
-
   this.lis = this.list.children;
-  if (page) {
+  if(page){
     this.page = document.querySelector(page);
     this.pageList = this.page.getElementsByTagName('li');
-    this.pageActive = opts.pageActive || 'active';
+    this.pageActive = opts.pageActive||'active';
   }
+  
   this.w = this.lis[0].offsetWidth;
-  this.fullScreen = opts.fullScreen || false;
+  this.fullScreen = opts.fullScreen||false;
   this.moveWidth = this.fullScreen?this.w:window.innerWidth;
-  this.endCallback = opts.endCallback || function() {};
-  this.allW = 0;
+  this.endCallback = opts.endCallback||function(){};
+  this.allW=0;
   // 初始化
   this.init();
   // 绑定事件
@@ -61,7 +59,6 @@ Slider.prototype.bindEvent = function() {
   var moveFn = function(ev) {
     ev.preventDefault();
     var pos = ev.touches[0];
-    console.log(pos)
     distX = pos.pageX-that.x;
     distY = pos.pageY-that.y;
     if ( typeof scrollY == 'undefined') { scrollY = !!( scrollY || Math.abs(distX) < Math.abs(distY) ); }
@@ -157,6 +154,8 @@ Slider.prototype.go = function(n) {
   // lis[nowIdx - 1] && (lis[nowIdx - 1].style.webkitTransform = 'translate3d(-' + w + 'px,0,0)');
   // lis[nowIdx] && (lis[nowIdx].style.webkitTransform = 'translate3d(0,0,0)');
   // lis[nowIdx + 1] && (lis[nowIdx + 1].style.webkitTransform = 'translate3d(' + w + 'px,0,0)');
-  this.endCallback(nowIdx);
+  if(n!='0'){
+    this.endCallback(nowIdx);
+  }
   this.idx = nowIdx;
 }

@@ -12,11 +12,15 @@
           </ul>
         </div>
       </div>
-      <div id="banner" class="banner">
-          <ul>
+      <swiper ref="swiper" :itemInfo="itemInfo"></swiper>
+      <!-- <div id="banner" class="banner">
+          <ul class="img">
              <li v-for="good in goods"><img :src="good.url" alt=""></li>
           </ul>
-      </div>
+          <ul class="page">
+             <li v-for="good in goods"></li>
+          </ul>
+      </div> -->
       <ul class="activity-list">
         <li v-for="todo in todos">
             <div class="list-head">
@@ -37,7 +41,8 @@
 
 <script>
 import axios from 'axios';
-import Slider from './slider';
+/*import Slider from './slider';*/
+import swiper from './swiper.vue';
 
 export default {
   name: '',
@@ -49,10 +54,14 @@ export default {
       tips: [],
       listObj: [],
       goods: [],
+      itemInfo: []
     };
   },
   created() {
     setInterval(this.moveUp, 5000);
+  },
+  components: {
+      swiper: swiper
   },
   mounted() {
     this.getData();
@@ -64,13 +73,18 @@ export default {
         that.loading = false;
       }
     });
-    new Slider ({
-       wrap: document.getElementById('banner')
-    })  
+    /*setTimeout(function(){
+      new Slider ({
+         wrap: document.getElementById('banner'),
+         fullScreen: 'fullScreen',
+         page: '.page'
+      })
+    },100)*/
+      
   },
   methods: {
     getData() {
-      axios.get('http://10.144.16.99:8080/static/list.json')
+      axios.get('http://localhost:8080/static/list.json')
         .then((res) => {
           this.listObj = this.listObj.concat(res.data.goods_list);
           console.log(res.data);
@@ -79,6 +93,7 @@ export default {
           this.loading = true;
           this.tips = res.data.category_list;
           this.goods = res.data.image_list;
+          this.itemInfo = res.data.image_list;
         });
     },
     moveUp(){
@@ -217,16 +232,73 @@ export default {
       margin: 0 0.2rem 0 0;
   }
   .banner {
+     position: relative;
      height: 2.5rem;
      overflow: hidden;
   }
-  .banner li {
-     width: 100%;
+  .swiper-container {
+     position: relative;
      height: 2.5rem;
-     float: left;
+     overflow: hidden;
   }
-  .banner img {
+  .swiper-wrapper {
+     display: flex;
+  }
+  .swiper-wrapper li {
      width: 100%;
      height: 2.5rem;
+     flex-shrink: 0;
+     -webkit-flex-shrink: 0;
+  }
+  .swiper-wrapper li img {
+     width: 100%;
+     height: 2.5rem;
+  }
+  .swiper-pagination {
+     position: absolute;
+     bottom: 0.1rem;
+     left: 50%;
+     transform: translateX(-50%);
+  }
+  .swiper-pagination li {
+     display: inline-block;
+     width: 0.1rem;
+     height: 0.1rem;
+     border-radius: 50%;
+     border: 1px solid #666;
+     margin: 0 0.1rem 0 0;
+  }
+  .swiper-pagination li.active {
+     background: #666;
+  }
+  .banner .img {
+     display: flex;
+  }
+  .banner .img li {
+     width: 100%;
+     height: 2.5rem;
+     flex-shrink: 0;
+     -webkit-flex-shrink: 0;
+  }
+  .banner .img img {
+     width: 100%;
+     height: 2.5rem;
+  }
+  .banner .page {
+     position: absolute;
+     bottom: 0.1rem;
+     left: 50%;
+     transform: translateX(-50%);
+  }
+  .banner .page li {
+     display: inline-block;
+     width: 0.1rem;
+     height: 0.1rem;
+     border-radius: 50%;
+     border: 1px solid #666;
+     margin: 0 0.1rem 0 0;
+  }
+  .banner .page li.active {
+     background: #666;
   }
 </style>

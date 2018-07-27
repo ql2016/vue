@@ -1,7 +1,17 @@
 <template>
   <div class="hello">
-      <h3>{{number}}</h3>
-      <input v-model="number">
+      <h3>{{num}}</h3>
+      <input v-model="num">
+      <p v-html="title" :class="['red',{'border':title}]"></p>
+      <ul>
+         <li v-for="item in items" v-text="item.lable" @click="handleClick(item)" :class="{underLine:item.isUnderLine}"></li>
+      </ul>
+      <div class="border">
+          <input type="text" v-model="list" @keyup.enter="addNum">
+          <ul>
+             <li v-for="todo in todoList" v-text="todo"></li>
+          </ul>
+      </div>
   </div>
 </template>
 
@@ -12,10 +22,32 @@ export default {
   name: 'axi',
   data() {
     return {
+      title: '<span>?</span>43242426',
+      items: [{
+         lable: 1,
+         isUnderLine: false
+      },{
+         lable: 2,
+         isUnderLine: true
+      },{
+         lable: 3,
+         isUnderLine: false
+      }],
+      num: this.number,
+      list: '',
+      todoList: []
     };
   },
   props: ['number'],
   methods: {
+    handleClick(item){
+       item.isUnderLine = !item.isUnderLine
+    },
+    addNum(){
+        this.todoList.push(this.list)
+        console.log(this.list,this.todoList);
+        this.list = '';
+    },
     receive() {
       bus.$on('tell', (data) => { console.log(data); });
     },
@@ -55,4 +87,15 @@ export default {
   },
 };
 </script>
+<style>
+    .red {
+       color: red;
+    }
+    .border {
+        border: 1px solid blue;
+    }
+    .underLine {
+       border-bottom: 1px solid green;
+    }
+</style>
 
