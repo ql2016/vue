@@ -12,15 +12,14 @@
           </ul>
         </div>
       </div>
-      <swiper ref="swiper" :itemInfo="itemInfo"></swiper>
-      <!-- <div id="banner" class="banner">
-          <ul class="img">
+      <!-- <swiper ref="swiper" :itemInfo="itemInfo"></swiper> -->
+      <div id="banner" class="banner">
+         <div class="bd">
+          <ul>
              <li v-for="good in goods"><img :src="good.url" alt=""></li>
           </ul>
-          <ul class="page">
-             <li v-for="good in goods"></li>
-          </ul>
-      </div> -->
+          </div>
+      </div>
       <ul class="activity-list">
         <li v-for="todo in todos">
             <div class="list-head">
@@ -42,10 +41,10 @@
 <script>
 import axios from 'axios';
 /*import Slider from './slider';*/
-import swiper from './swiper.vue';
+//import swiper from './swiper.vue';
+import touchSlide from './TouchSlide.js';
 
 export default {
-  name: '',
   data() {
     return {
       animate: false,
@@ -61,7 +60,7 @@ export default {
     setInterval(this.moveUp, 5000);
   },
   components: {
-      swiper: swiper
+      //swiper: swiper
   },
   mounted() {
     this.getData();
@@ -73,6 +72,19 @@ export default {
         that.loading = false;
       }
     });
+    // document.addEventListener('touchmove', function(event) {
+    //   event.preventDefault();
+    //   }, false);
+    setTimeout(function(){
+    new touchSlide({
+      slideCell:"#banner",
+      //titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+      mainCell:".bd ul", 
+      effect:"leftLoop", 
+      autoPlay:true,//自动播放
+      //autoPage:true //自动分页
+    })
+    },100)
     /*setTimeout(function(){
       new Slider ({
          wrap: document.getElementById('banner'),
@@ -84,7 +96,7 @@ export default {
   },
   methods: {
     getData() {
-      axios.get('http://localhost:8080/static/list.json')
+      axios.get('http://192.168.0.105:8080/static/list.json')
         .then((res) => {
           this.listObj = this.listObj.concat(res.data.goods_list);
           console.log(res.data);
@@ -136,6 +148,10 @@ export default {
 		padding: 0;
 		margin: 0
 	}
+  html,body {
+    overflow: hidden;
+    height: 100%;
+  }
   ul,li {
     list-style: none;
   }
@@ -232,9 +248,16 @@ export default {
       margin: 0 0.2rem 0 0;
   }
   .banner {
-     position: relative;
-     height: 2.5rem;
-     overflow: hidden;
+      width: 375px;
+      height: 150px;
+      overflow: hidden;
+      position: relative;
+  }
+  .banner li {
+     width: 375px;
+  }
+  .banner li img {
+     width: 100%;
   }
   .swiper-container {
      position: relative;
@@ -271,19 +294,12 @@ export default {
   .swiper-pagination li.active {
      background: #666;
   }
-  .banner .img {
-     display: flex;
-  }
-  .banner .img li {
+
+
+  /*.banner .img img {
      width: 100%;
      height: 2.5rem;
-     flex-shrink: 0;
-     -webkit-flex-shrink: 0;
-  }
-  .banner .img img {
-     width: 100%;
-     height: 2.5rem;
-  }
+  }*/
   .banner .page {
      position: absolute;
      bottom: 0.1rem;

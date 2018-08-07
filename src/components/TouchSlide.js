@@ -285,8 +285,14 @@ export default function touchSlide(a){
 		distY = point.pageY-startY;
 
 		if ( typeof scrollY == 'undefined') { scrollY = !!( scrollY || Math.abs(distX) < Math.abs(distY) ); }
-		if( !scrollY ){ 
-			e.preventDefault(); if(autoPlay){clearInterval(inter) }
+		//alert(scrollY)
+		if( !scrollY ){
+			//alert(88)
+			//return window.scrollTo(0,0),!1//
+			document.addEventListener('touchmove', function(e) {
+		       e.preventDefault();
+		    }, false);
+			if(autoPlay){clearInterval(inter) }
 			switch (effect){
 				case "left":
 					if( (index==0 && distX>0) || (index>=navObjSize-1&&distX<0 )){ distX=distX*0.4 }
@@ -304,7 +310,9 @@ export default function touchSlide(a){
 	//触摸结束函数
 	var tEnd = function(e){
 		if(distX==0) return;
-		// e.preventDefault(); 
+		document.removeEventListener('touchmove', function(e) {
+		       e.preventDefault();
+	    }, false);
 		if( !scrollY )
 		{
 			if( Math.abs(distX) > slideW/10  ){ distX>0? index--: index++; }
