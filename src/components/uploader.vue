@@ -1,14 +1,5 @@
 <template>
-  <div class="shoppingcart">
-    <div class="goods-tab">
-        <span>&nbsp;</span>
-        <span>商品名称</span>
-        <span>商品图片</span>
-        <span>商品单价</span>
-        <span>数量</span>
-        <span>商品总额</span>
-        <span>操作</span>
-    </div>
+  <div class="uploader">
     <ul class="goods-list">
       <li v-for="(todo,index) in todos" v-if="index<2" :key="index">
             <div class="checkbox" :class="{'active':todo.checked}" @click="isSelect(todo)">
@@ -31,14 +22,7 @@
       </li>
     </ul>
     <div class="count">
-      <div class="fl checkbox" :class="{'active':checkAll}" @click="isSelectAll">
-        全选：<span></span>
-      </div>
-      <div class="fr">总额:{{total|fixed}}</div>
-      <a href="" class="file">选择文件
-        <input type="file" id="fileId" capture=camera" accept="image/png,image/gif" name="file" multiple="multiple"/>
-      </a>
-      
+      <input type="file" capture="camera" accept="image/*,video/*" multiple>
     </div>
   </div>
 </template>
@@ -60,8 +44,6 @@ export default {
   components: {
   },
   mounted() {
-    var oFiles = document.querySelector("#fileId");
-    console.log(oFiles)
     this.getData();
   },
   filters: {
@@ -217,25 +199,5 @@ export default {
   .count .fr {
     float: right;
     padding: 0 30px 0 0;
-  }
-  .file {
-    position: relative;
-    display: inline-block;
-    background: #D0EEFF;
-    border: 1px solid #99D3F5;
-    border-radius: 4px;
-    padding: 4px 12px;
-    overflow: hidden;
-    color: #1E88C7;
-    text-decoration: none;
-    text-indent: 0;
-    line-height: 20px;
-  }
-  .file input {
-      position: absolute;
-      font-size: 100px;
-      right: 0;
-      top: 0;
-      opacity: 0;
   }
 </style>
