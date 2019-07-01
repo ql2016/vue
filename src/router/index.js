@@ -89,5 +89,10 @@ export default [
         path: '/blog/:id',
         name: 'detailBlog',
         component: detailBlog
+    },
+    {
+        path: '/edit/:id',
+        name: 'edit',
+        component: addBlog
     }
 ]

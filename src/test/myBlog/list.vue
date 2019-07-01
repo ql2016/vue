@@ -7,7 +7,11 @@
         <div class="single-blog" v-for="(blog,index) in filteredBlog" :key="index">
             <router-link :to="'/blog/'+ blog.id">
                 <h3 v-rainbow>{{blog.title|toUppercase}}</h3>
-                <article>{{blog.body}}</article>
+                <article>{{blog.content}}</article>
+                <p>作者：{{blog.author}}</p>
+                <ul>
+                    <li v-for="(type,index) in blog.types" :key="index">{{type}}</li>
+                </ul>
             </router-link>
         </div>
     </div>
@@ -53,9 +57,14 @@ export default {
     },
     methods: {
         getBlog() {
-            this.$http.get('http://jsonplaceholder.typicode.com/posts')
+            this.$http.get('https://myblog-17bc3.firebaseio.com/posts.json')
             .then(res=>{
-                this.blogs = res.body.slice(0,10);
+                var data = res.body;
+                for(var key in data) {
+                    data[key].id = key;
+                    this.blogs.push(data[key])
+                }
+                console.log(this.blogs);
             })
         }
     },

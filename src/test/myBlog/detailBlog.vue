@@ -3,13 +3,17 @@
         <div class="operate">
             <router-link to="/myBlog" class="back">返回</router-link>
             <span class="fr">
-                <router-link :to="'/addBlog/'" class="edit">编辑</router-link>
+                <router-link :to="'/edit/' + id" class="edit">编辑</router-link>
                 <button class="del">删除</button>
             </span>
         </div>
         <div class="content">
             <h3>{{blog.title}}</h3>
-            <article>{{blog.body}}</article>
+            <article>{{blog.content}}</article>
+            <p>作者：{{blog.author}}</p>
+            <ul>
+                <li v-for="(type,index) in blog.types" :key="index">{{type}}</li>
+            </ul>
         </div>
     </div>
 </template>
@@ -23,7 +27,7 @@ export default {
     },
     created() {
         console.log(this.$route)
-        this.$http.get('http://jsonplaceholder.typicode.com/posts/' + this.id)
+        this.$http.get('https://myblog-17bc3.firebaseio.com/posts/' + this.id + '.json')
         .then(res=>{
             this.blog = res.body;
         })

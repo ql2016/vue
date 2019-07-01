@@ -53,13 +53,17 @@ export default {
         }
     },
     created() {
-        //console.log(33)
-        console.log(this.$route)
+        if(this.$route.params.id){
+            this.getBlog()
+        }else {
+            this.blog = {}
+        }    
     },
     methods: {
         getBlog() {
-            this.$http.get('http://jsonplaceholder.typicode.com/posts/' + this.$route.params.id)
+            this.$http.get('https://myblog-17bc3.firebaseio.com/posts/' + this.$route.params.id + '.json')
             .then(res=>{
+                console.log(res)
                 this.blog = res.body;
             })
         },
