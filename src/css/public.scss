@@ -1,0 +1,95 @@
+html,body,div,h1,h2,h3,h4,h5,p,span,img,ul,ol,li,a {
+    padding: 0;
+    margin: 0;
+}
+ul,li {
+    list-style-type: none;
+}
+a {
+    text-decoration: none;
+}
+input,
+textarea,
+button {
+    border: 0.02rem solid #ddd;
+}
+.clearfix:after {
+    display: block;
+    clear: both;
+    content: ""
+}
+
+.clearfix {
+    zoom:1
+}
+.fl {
+    float: left;
+}
+.fr {
+    float: right;
+}
+.red {
+    color: red;
+}
+.overflow-one {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+.overflow-two {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    -webkit-box-orient: vertical
+}
+.header-cont {
+    display: flex;
+    height: 1rem;
+    line-height: 1rem;   
+    .header-back,.header-title,.header-share {
+        width: 33%;
+    }
+}
+.footer {
+    ul {
+        display: flex;
+        height: 1rem;
+        line-height: 1rem;
+        li {
+            flex: 1;
+        }
+    }
+}
+.router-link-exact-active {
+    color: red;
+}
+
+.address-header {
+    background-color: #fff;
+    ul {
+      display: flex;
+      justify-content: space-around;
+      align-items: stretch;
+      li {
+        display: inline-block;
+        padding: 10px 10px 7px;
+        &.active {
+          border-bottom: #52697f solid 3px;
+          color: #52697f;
+        }
+      }
+    }
+  }
+  .address-container {
+    ul {
+      height: 100%;
+      overflow: auto;
+      li {
+        padding: 8px 10px;
+        border-top: 1px solid #f6f6f6;
+        &.active {
+          color: red;
+        }
+      }
+    }
+  }

@@ -57,6 +57,8 @@ module.exports = {
             "exceptions": ["*"],
             "balanced": true
         }
-    }]
+    }],
+    "vue/no-parsing-error": [2, { "x-invalid-end-tag": false }],
+    "max-len" : ["error", {code : 300}]
   }
 }

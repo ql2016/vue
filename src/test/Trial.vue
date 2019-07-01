@@ -5,6 +5,7 @@
            <li v-for="tip in tips" v-html="tip.name" :key="tip.categoryId"></li>
         </ul>
       </div>
+      <h3 @click="scrollLock">点击弹出弹层</h3>
       <div class="trial-goods" ref="goods">
         <div class="goods-list">
           <ul>
@@ -35,6 +36,11 @@
         		</div>   	
         </li>
       </ul>
+      <div class="wrap" :class="{'hide':!isLocked}">
+          <div class="wrap-content">
+             <p>弹层</p>
+          </div>
+      </div>
   </div>
 </template>
 
@@ -42,7 +48,7 @@
 import axios from 'axios';
 /*import Slider from './slider';*/
 //import swiper from './swiper.vue';
-import touchSlide from './TouchSlide.js';
+//import touchSlide from './TouchSlide.js';
 
 export default {
   data() {
@@ -53,7 +59,8 @@ export default {
       tips: [],
       listObj: [],
       goods: [],
-      itemInfo: []
+      itemInfo: [],
+      isLocked: false
     };
   },
   created() {
@@ -72,19 +79,27 @@ export default {
         that.loading = false;
       }
     });
+    document.addEventListener('click',function(event){
+        console.log(event.target)
+        var w = document.querySelector('.wrap');
+        console.log(w)
+        if(!wrap.is(event.target) && wrap.has(event.target).length === 0){
+            this.isLocked = true;
+        }
+    })
     // document.addEventListener('touchmove', function(event) {
     //   event.preventDefault();
     //   }, false);
-    setTimeout(function(){
-    new touchSlide({
-      slideCell:"#banner",
-      //titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
-      mainCell:".bd ul", 
-      effect:"leftLoop", 
-      autoPlay:true,//自动播放
-      //autoPage:true //自动分页
-    })
-    },100)
+    // setTimeout(function(){
+    //   new touchSlide({
+    //     slideCell:"#banner",
+    //     //titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+    //     mainCell:".bd ul", 
+    //     effect:"leftLoop", 
+    //     autoPlay:true,//自动播放
+    //     //autoPage:true //自动分页
+    //   })
+    // },100)
     /*setTimeout(function(){
       new Slider ({
          wrap: document.getElementById('banner'),
@@ -96,7 +111,7 @@ export default {
   },
   methods: {
     getData() {
-      axios.get('http://192.168.0.105:8080/static/list.json')
+      axios.get('http://10.2.123.128:8080/static/list.json')
         .then((res) => {
           this.listObj = this.listObj.concat(res.data.goods_list);
           console.log(res.data);
@@ -125,6 +140,30 @@ export default {
     windowHeight() {
       return (document.compatMode == "CSS1Compat") ? document.documentElement.clientHeight : document.body.clientHeight;
     },
+    touchmoveHandler(e){
+        e.preventDefault();
+    },
+    lock(e){
+        e.stopPropagation();
+        document.body.classList.add('sm-no-scroll');
+        document.documentElement.classList.add('sm-no-scroll');
+        document.addEventListener('touchmove',this.touchmoveHandler);
+        this.isLocked = true;
+        
+    },
+    unlock(){
+        document.body.classList.remove('sm-no-scroll');
+        document.documentElement.classList.remove('sm-no-scroll');
+        document.removeEventListener('touchmove',this.touchmoveHandler);
+        this.isLocked = false;
+    },
+    scrollLock(){
+       if(this.isLocked){
+          this.unlock()
+       }else {
+          this.lock(event)
+       }  
+    }
     /*setListObj(id,list,isMore){
       if(this.listObj['list-'+id]){
         this.listObj['list-'+id].list = this.listObj['list-'+id].list.concat(list);
@@ -141,17 +180,16 @@ export default {
     }*/
   },
 };
-
 </script>
 <style>
 	* {
 		padding: 0;
 		margin: 0
 	}
-  html,body {
+  /*html,body {
     overflow: hidden;
     height: 100%;
-  }
+  }*/
   ul,li {
     list-style: none;
   }
@@ -316,5 +354,28 @@ export default {
   }
   .banner .page li.active {
      background: #666;
+  }
+  .hide {
+     display: none;
+  }
+  .sm-no-scroll {
+    height: 100%;
+    overflow: hidden;
+  }
+  .wrap {
+     position: fixed;
+     top: 0;
+     background: rgba(0,0,0,0.6);
+     width: 100%;
+     height: 100%;
+  }
+  .wrap .wrap-content {
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%,-50%);
+     background: #fff;
+     width: 5rem;
+     height: 3rem;
   }
 </style>
