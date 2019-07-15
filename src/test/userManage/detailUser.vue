@@ -1,22 +1,16 @@
 <template>
     <div class="detail">
         <div class="operate">
-            <router-link to="/myBlog" class="back">返回</router-link>
+            <router-link to="/users" class="back">返回</router-link>
             <span class="fr">
-                <router-link :to="'/edit/' + id" class="edit">编辑</router-link>
-                <button class="del" @click="delBlog">删除</button>
+                <router-link :to="'/editUser/' + id" class="edit">编辑</router-link>
+                <button class="del" @click="delUser">删除</button>
             </span>
         </div>
         <div class="content">
-            <h3>{{blog.title}}</h3>
-            <article>{{blog.content}}</article>
-            <p>作者：{{blog.author}}</p>
-            <div class="type">
-                <span>分类：</span>
-                <ul>
-                    <li v-for="(type,index) in blog.types" :key="index">{{type}}</li>
-                </ul>
-            </div>
+            <h3>{{user.name}}</h3>
+            <p>电话：{{user.phone}}</p>
+            <p>邮箱：{{user.email}}</p>
         </div>
     </div>
 </template>
@@ -25,20 +19,21 @@ export default {
     data() {
         return {
             id: this.$route.params.id,
-            blog: {}
+            user: {}
         }
     },
     created() {
-        this.$http.get('https://myblog-17bc3.firebaseio.com/posts/' + this.id + '.json')
+        this.$http.get('http://localhost:3000/users/' + this.id)
         .then(res=>{
-            this.blog = res.body;
+            //this.user = res.body; //resource
+            this.user = res.data; //axios
         })
     },
     methods: {
-        delBlog(){
-            this.$http.delete('https://myblog-17bc3.firebaseio.com/posts/' + this.id + '.json')
+        delUser(){
+            this.$http.delete('http://localhost:3000/users/' + this.id)
             .then(res=>{
-                this.$router.push({path:'/myBlog'})
+                this.$router.push({path:'/users'})
             })
         }
     }

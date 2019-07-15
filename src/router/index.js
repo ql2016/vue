@@ -15,6 +15,10 @@ import register from '@/test/register';
 import addBlog from '@/test/myBlog/add';
 import blogList from '@/test/myBlog/list';
 import detailBlog from '@/test/myBlog/detailBlog';
+import users from '@/test/userManage/index';
+import userList from '@/test/userManage/list';
+import addUser from '@/test/userManage/add';
+import detailUser from '@/test/userManage/detailUser';
 
 //Vue.use(Router);
 
@@ -94,5 +98,33 @@ export default [
         path: '/edit/:id',
         name: 'edit',
         component: addBlog
+    },
+    {
+        path: '/users',
+        name: 'users',
+        component: users,
+        redirect: '/users',
+        children: [
+            {
+                path: '/users',
+                name: 'userList',
+                component: userList,
+            },
+            {
+                path: '/addUser',
+                name: 'addUser',
+                component: addUser,
+            },
+            {
+                path: '/user/:id',
+                name: 'detailUser',
+                component: detailUser
+            },
+            {
+                path: '/editUser/:id',
+                name: 'editUser',
+                component: addUser
+            }
+        ]
     }
 ]

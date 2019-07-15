@@ -9,9 +9,12 @@
                 <h3 v-rainbow>{{blog.title|toUppercase}}</h3>
                 <article>{{blog.content}}</article>
                 <p>作者：{{blog.author}}</p>
-                <ul>
-                    <li v-for="(type,index) in blog.types" :key="index">{{type}}</li>
-                </ul>
+                <div class="type">
+                    <span>分类：</span>
+                    <ul>
+                        <li v-for="(type,index) in blog.types" :key="index">{{type}}</li>
+                    </ul>
+                </div>
             </router-link>
         </div>
     </div>
@@ -27,14 +30,12 @@ export default {
         }
     },
     created() {
-        //console.log(this.$route.params.id)
         if(this.$route.query.content){
             this.tips = this.$route.query.content;
         }
-        
-        //console.log(2,this.tips)
         this.getBlog();
     },
+    
     computed: {
         filteredBlog() {    
             return this.blogs.filter((blog) => {    
@@ -59,12 +60,12 @@ export default {
         getBlog() {
             this.$http.get('https://myblog-17bc3.firebaseio.com/posts.json')
             .then(res=>{
+                console.log(res)
                 var data = res.body;
                 for(var key in data) {
                     data[key].id = key;
                     this.blogs.push(data[key])
                 }
-                console.log(this.blogs);
             })
         }
     },
@@ -79,7 +80,26 @@ export default {
         background: #eee;
         margin: 0.4rem 0.2rem;
         padding: 0.2rem;
-        border: 0.02rem solid #ddd;
+        border: 0.02rem solid #ddd;    
+    }
+    .single-blog a {
+        color: #666;
+    }
+    .single-blog article {
+        color: #222;
+    }
+    .single-blog article,
+    .single-blog .type {
+        margin: 0.2rem 0;
+    }
+    .single-blog .type span {
+        float: left;
+    }
+    .single-blog .type ul {
+        display: flex;
+    }
+    .single-blog .type ul li{
+        margin: 0 0.2rem 0 0;
     }
 </style>
 

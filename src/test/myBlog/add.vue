@@ -13,13 +13,15 @@
             </div>
             <div class="row">
                 <label for="">博客类型：</label>
-                <span class="checkbox" v-for="(category,index) in categories" :key="index"><input type="checkbox" :value="category" v-model="blog.types">{{category}}</span>
+                <span class="checkbox" v-for="(category,index) in categories" :key="index"><input type="checkbox" :value="category" v-model="types">{{category}}</span>
+                {{types}}
             </div>
             <div class="row">
                 <label for="">作者：</label>
                 <select v-model="blog.author"><option v-for="(author,index) in authors" :key="index" :value="author">{{author}}</option></select>
             </div>
-            <button @click.prevent="sendBlog">添加博客</button>
+            <button v-if="isAdd" @click.prevent="addBlog">添加博客</button>
+            <button v-else @click.prevent="editBlog">编辑博客</button>
         </form>
         <div v-if="submitted">
             <h3>您的博客发布成功！</h3>
@@ -31,7 +33,7 @@
         <div class="preview">
             <div class="row"><strong>博客标题：</strong><p>{{blog.title}}</p></div>
             <div class="row"><strong>博客内容：</strong><p>{{blog.content}}</p></div>
-            <div class="row"><strong>博客类型：</strong><div class="type"><a v-for="(type,index) in blog.types" :key="index">{{type}}</a></div></div>
+            <div class="row"><strong>博客类型：</strong><div class="type"><a v-for="(type,index) in types" :key="index">{{type}}</a></div></div>
             <div class="row"><strong>作者：</strong><p>{{blog.author}}</p></div>
         </div>
     </div>
@@ -44,35 +46,52 @@ export default {
             blog: {
                 title: '',
                 content: '',
-                types: [],
-                author: ''
+                author: '',
             },
+            types: [],
             submitted: false,
             categories: ['vue.js','react.js','node.js'],
-            authors: ['herry','marry','lili']
+            authors: ['herry','marry','lili'],
+            isAdd: true
         }
     },
     created() {
         if(this.$route.params.id){
-            this.getBlog()
+            this.getBlog();
+            this.isAdd = false;
         }else {
-            this.blog = {}
+            this.blog = {};
         }    
+    },
+    watch: {
+        $route(to,from){
+            if(to.name=='addBlog'){
+                this.blog = {};
+                this.types = [];
+                this.isAdd = true;
+            }
+        }
     },
     methods: {
         getBlog() {
             this.$http.get('https://myblog-17bc3.firebaseio.com/posts/' + this.$route.params.id + '.json')
-            .then(res=>{
-                console.log(res)
+            .then(res=>{    
                 this.blog = res.body;
+                this.types = this.blog.types || [];
             })
         },
-        sendBlog() {
+        addBlog() {
+            this.blog.types = this.types;
             this.$http.post('https://myblog-17bc3.firebaseio.com/posts.json',this.blog)
             .then(res=>{
-                //this.submitted = true;
                 this.$router.push({ path:'/myBlog',query:{content:'博客发布成功！'}})
-                console.log(res)
+            })
+        },
+        editBlog() {
+            this.blog.types = this.types;
+            this.$http.put('https://myblog-17bc3.firebaseio.com/posts/' + this.$route.params.id + '.json',this.blog)
+            .then(res=>{
+                this.$router.push({ path:'/myBlog',query:{content:'博客发布成功！'}})
             })
         }
     },
