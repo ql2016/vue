@@ -1,13 +1,14 @@
 <template>
   <div id="app">
-    <div class="header">
+    <!-- <div class="header">
         <div class="header-cont">
-            <div class="header-back">返回</div>
+            <div class="header-back" @click="onTab(0)">返回</div>
             <div class="header-title" v-text="title"></div>
-            <div class="header-share" v-if="share">分享</div>
+            <div class="header-share" v-if="share" @click="onTab(1)">分享</div>
         </div>
-    </div>
-    <foot v-if="isShow"></foot>
+    </div> -->
+    <!-- <top></top> -->
+    <!-- <foot v-if="isShow"></foot> -->
     <router-view /> 
     <br>
     <div class="routerNest">
@@ -19,13 +20,13 @@
 
 <script>
 import {mapState,mapGetters,mapActions} from 'vuex';
-//import top from '@/components/top.vue';
+
 import foot from '@/components/foot.vue';
 export default {
     //name: 'App',
     data() {
         return {
-            
+            index: 1
         };
     },
     mounted() {
@@ -49,9 +50,13 @@ export default {
         }
     },
     methods: {
+        onTab(tabIndex){
+            this.index == tabIndex;
+            console.log(tabIndex,this.index)
+        }
     },
     components: {
-        //top,
+        top,
         foot,
     },
 };

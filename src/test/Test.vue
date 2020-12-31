@@ -103,7 +103,8 @@ export default {
         },
         getUsers() {
             this.$http.get('http://jsonplaceholder.typicode.com/users').then(function(res){
-                this.users = res.body;
+                console.log(res.data)
+                this.users = res.data
             })
         },
         goto() {

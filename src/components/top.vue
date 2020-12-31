@@ -9,19 +9,14 @@
 </template>
 <script>
 export default {
+    props: ['title','share'],
     data() {
         return {
-            //title: ''
         }
     },
     created() {
-        //console.log(this.$store.state.top.title)
     },
     computed: {
-        // title() {
-        //     return this.$store.state.top.title
-        // }
-        //title: this.$store.state.top.title
     },
 }
 </script>

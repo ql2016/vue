@@ -1,6 +1,7 @@
 <template>
     <div class="trial-center">
-        <div class="box-list topic-list">
+        <top title="首页"></top>
+        <!-- <div class="box-list topic-list">
             <h3 class="red" v-text="recommendActivity.name"></h3>
             <ul>
                 <li class="list clearfix" v-for="(item,index) in recommendActivity.list" :key="index">
@@ -22,11 +23,12 @@
         <div class="topic-list">
             <h3 class="red">更多试用</h3>
             <list :data="moreActivity" type="activity"></list>
-        </div>       
+        </div>        -->
     </div>
 </template>
 <script>
 //import VDistpicker from 'v-distpicker';
+import top from '@/components/top.vue';
 import {mapGetters,mapActions, mapState} from 'vuex';
 import list from '@/components/list.vue';
 export default {
@@ -67,6 +69,7 @@ export default {
         ]),
     },
     components: {
+        top,
         list
     },
 };
